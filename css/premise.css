@@ -1,0 +1,262 @@
+/* Premise Classes */
+* {
+    margin: 0;
+    padding: 0;
+}
+input,textarea {
+    outline: 0 !important;
+}
+img {
+    border: 0;
+}
+
+/* For IE -- Fuck IE!! */
+.row {
+    display: block;
+    overflow: hidden;
+    margin-left: -1%;
+    margin-right: -1%;
+}
+
+.row > [class^="span"],.row > [class*=" span"],.row > [class^="col"],.row > [class*=" col"] {
+    float: left;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.clear {
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+}
+
+.clear-right {
+    clear:right;
+}
+
+.clear-left {
+    clear:left;
+}
+
+.inline > [class^="span"],.inline > [class*=" span"],.inline > [class^="col"],.inline > [class*=" col"],ul.inline > li {
+    display: inline-block;
+}
+
+.vertical-middle {
+    vertical-align: middle;
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+.vertical-bottom {
+    vertical-align: bottom;
+}
+.half {
+    width: 50%;
+}
+.col2 {
+    width: 48%;
+    margin: 1%;
+}
+
+.col3 {
+    width: 31%;
+    margin: 1%;
+}
+
+.col4 {
+    width: 23%;
+    margin: 1%;
+}
+
+.col5 {
+    width: 18%;
+    margin: 1%;
+}
+
+.col6 {
+    width: 14.6%;
+    margin: 1%;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.justify {
+    text-align: justify;
+}
+.span1 {
+    width: 6.3%;
+}
+
+.span2 {
+    width: 14.6%;
+}
+
+.span3 {
+    width: 23%;
+}
+
+.span4 {
+    width: 31.3%;
+}
+
+.span5 {
+    width: 39.6%;
+}
+
+.span6 {
+    width: 48%;
+}
+
+.span7 {
+    width: 56.3%;
+}
+
+.span8 {
+    width: 64.6%;
+}
+
+.span9 {
+    width: 73%;
+}
+
+.span10 {
+    width: 81.3%;
+}
+
+.span11 {
+    width: 89.6%;
+}
+
+.span12 {
+    width: 98%;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+.responsive-img,
+img.responsive,
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.btn {
+    outline: 0;
+    border: 0;
+}
+.btn-primary {
+    background: #27b4b4;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-family: 'DistrictPro', arial, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    -webkit-appearance: none;
+}
+.btn-primary:hover {
+    background: #555;
+    color: #fff;
+}
+.btn-submit {
+    border: 0;
+    padding: 15px 30px;
+    color: #fff;
+    background: #27b4b4;
+    margin: 20px auto;
+    display: block;
+    font-size: 18px;
+    min-width: 300px;
+    cursor: pointer;
+    font-family: 'DistrictPro', arial, sans-serif;
+    font-weight: 300;
+    -webkit-appearance: none;
+}
+
+.hidden {
+    display: none;
+    visibility: none;
+}
+
+.transition {
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+}
+
+.transition5 {
+    transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    -ms-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+}
+
+/* Responsive Resets */
+@media screen and (max-width: 769px) {
+    .row > .span1,.row > .span2,.row > .span3,.row > .span4,.row > [class^="col"],.row > [class*=" col"] {
+        width:48%;
+        margin: 10px 1%;
+    }
+    
+    .row > .span8,.row > .span9,.row > .span10,.row > .span11 {
+        width: 98%;
+        margin: 10px 1%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .row > [class^="span"],.row > [class*=" span"],.row > [class^="col"],.row > [class*=" col"] {
+        width:98%;
+        margin: 10px 1%;
+    }
+    .span6 {
+        width:98%;
+        margin-left:1%;
+        margin-right:1%;
+    }
+}
+
+/*Premise Built in functionality*/
