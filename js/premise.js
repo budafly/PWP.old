@@ -120,10 +120,34 @@ function premiseSelectBackground( el ) {
 function premiseToggleElements( el, params ) {
 	el = typeof el === 'object' ? el : ''
 	params = typeof params === 'object' ? params : ''
+	
+	if( !el ) console.log( 'premiseToggleElements() ERROR: First param must be an object' );  return false
 
-	if( !el ) 	  console.log( 'premiseToggleElements() ERROR: First param must be an object' );  return false
-	if( !params ) console.log( 'premiseToggleElements() ERROR: second param must be an object' ); return false
+	if( !params ) {
+		var show = el.attr('data-toggle-show')
+		if( !show ) {
+			console.log( 'premiseToggleElements() ERROR: You must specify which element to display. You can do this by passing a parameter "{"show":".showThis"}" directly to the function or by adding "data-toggle-show" attribute to the element.' ); return false
+		}
+		
+		var hide = el.attr('data-toggle-hide') ? el.attr('data-toggle-hide') : '.premise-toggle-this'
+	}
+	else {
+
+	}
+	show = el.attr('data-toggle') ? el.attr('data-toggle') : 
+	 { 'hide': '.premise-toggle-this', 'show': '' }
+
 
 	console.log( jQuery.type(el) )
 
+}
+
+/**
+ * Get the value of any field
+ * @return {string} value of field
+ */
+function premiseGetThisVal(el) {
+	var a = jQuery(el).val()
+	console.log( el )
+	return a
 }

@@ -14,13 +14,14 @@
  */
 function premise_field( $args = array() ) {
 	if( !is_array( $args ) ) return false;
-	global $premise_form;
+	global $Premise_Form_Class;
+	//$form = $Premise_WP_Class->premise_forms_setup();
 	if( is_array( $args[0] ) ){
 		foreach ($args as $arg)
-			$premise_form->the_field( $arg );
+			$Premise_Form_Class->the_field( $arg );
 	}
 	else{
-		$premise_form->the_field( $args );
+		$Premise_Form_Class->the_field( $args );
 	}
 }
 
@@ -48,7 +49,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 								'Gradient Background' => 'gradient',
 								'Image Background' => 'image', 
 							),
-			'attribute' => 'onchange="premiseSelectBackground()"',
+			'attribute' => 'onchange="var a = premiseGetThisVal(this);premiseToggleElements(this, {\'hide\':\'premise-background\', \'show\':\'a\'})"',
 		);
 		//color
 		$color = array(

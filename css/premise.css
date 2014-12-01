@@ -1,4 +1,12 @@
 /* Premise Classes */
+@font-face{
+    src:url(../includes/font-awesome-4.2.0/fonts/fontawesome-webfont.eot),
+        url(../includes/font-awesome-4.2.0/fonts/fontawesome-webfont.svg),
+        url(../includes/font-awesome-4.2.0/fonts/fontawesome-webfont.ttf),
+        url(../includes/font-awesome-4.2.0/fonts/fontawesome-webfont.woff),
+        url(../includes/font-awesome-4.2.0/fonts/FontAwesome.otf);
+    font-family: 'FontAwesome';
+}
 * {
     margin: 0;
     padding: 0;
@@ -232,6 +240,25 @@ img.responsive,
     -moz-transition: all .5s ease-in-out;
     -ms-transition: all .5s ease-in-out;
     -o-transition: all .5s ease-in-out;
+}
+
+
+/* forms */
+.field .tooltip {
+    position:relative;
+    display:inline-block;
+    vertical-align: text-bottom;
+    line-height:150%;
+    color:#fff;
+    margin-right:10px;
+    margin-left:-5px;
+    cursor: help;
+}
+
+.field .tooltip:before{
+    color:#27b4b4;
+    font-family: 'FontAwesome';
+    content: "\f05a";
 }
 
 /* Responsive Resets */
