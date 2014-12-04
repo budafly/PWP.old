@@ -72,6 +72,8 @@ class Premise_Form_Class {
 		if( !is_array( $args ) )
 			return false;
 
+		$this->html_markup = '';
+		
 		$this->field = wp_parse_args( $args, $this->defaults );
 
 		$this->begin_field();
@@ -100,7 +102,7 @@ class Premise_Form_Class {
 		
 		$this->end_field();
 
-		echo $this->html_markup;
+		return $this->html_markup;
 	}
 	
 	/**

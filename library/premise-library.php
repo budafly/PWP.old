@@ -7,6 +7,18 @@
  */
 
 /**
+ * Premise Print
+ * @param var $var variable to print
+ * @return string will print $var or 'Empty $var' wrapped in <pre> tags.
+ */
+function premise_print( $var ) {
+	$var = !empty($var) ? $var : 'Empty $var';
+	echo '<pre><code>';
+	print_r( $var );
+	echo '</code></pre>';
+}
+
+/**
  * @link [url] [description]
  * @param  array  $args array of arguments to buid a field
  * @return echo         html markup for a form field based on the arguments passed
@@ -15,14 +27,8 @@
 function premise_field( $args = array() ) {
 	if( !is_array( $args ) ) return false;
 	global $Premise_Form_Class;
-	//$form = $Premise_WP_Class->premise_forms_setup();
-	if( is_array( $args[0] ) ){
-		foreach ($args as $arg)
-			$Premise_Form_Class->the_field( $arg );
-	}
-	else{
-		$Premise_Form_Class->the_field( $args );
-	}
+	if( !is_array( $args[0] ) ) echo $Premise_Form_Class->the_field( $args );
+	foreach ($args as $arg) echo $Premise_Form_Class->the_field( $arg );
 }
 
 /**
