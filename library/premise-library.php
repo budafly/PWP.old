@@ -203,7 +203,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			premise_field( $image );
 		echo '</div>';
 
-		echo '</div>';
+		echo '</div></div>';
 	}
 }
 ?>
