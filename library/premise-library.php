@@ -13,7 +13,7 @@
  */
 function premise_print( $var ) {
 	$var = !empty($var) ? $var : 'Empty $var';
-	echo '<pre><code>';
+	echo '<pre style="display:block;margin:40px auto;width:90%;overflow:auto;"><code style="display:block;padding:20px;">';
 	print_r( $var );
 	echo '</code></pre>';
 }
@@ -27,14 +27,11 @@ function premise_print( $var ) {
 function premise_field( $args = array() ) {
 	if( !is_array( $args ) ) return false;
 	global $Premise_Form_Class;
-	//if( is_array( $args[0] ) ) echo $Premise_Form_Class->the_field( $args );
-	//foreach ($args as $arg) 
-	foreach ( $args as $key => $value ) {
-		echo $Premise_Form_Class->the_field( $value );
-		if ( is_array( $value ) ) {
-			premise_field( $value );
-		}
-
+	if( array_key_exists( 'type', $args ) ) {
+		echo $Premise_Form_Class->the_field( $args );
+	}
+	else {
+		foreach ($args as $arg) echo $Premise_Form_Class->the_field( $arg );
 	}
 }
 
@@ -46,31 +43,33 @@ function premise_field( $args = array() ) {
  * @return echo will echo upload fields to insert a background
  */
 if ( !function_exists( 'premise_insert_background' ) ) {
-	function premise_insert_background( $name ) { 
-		$bg = get_option( $name );
-		$splash = get_option( $name );
-
+	function premise_insert_background_options( $name ) {
+		$field = get_option( $name );
+		
 		//background
 		$background = array(
-			'type' => 'select',
-			'label' => 'Home Splash Background',
-			'tooltip' => 'Set your Home Splash background.',
-			'name' => $name.'[bg]',
-			'id' => $name.'-bg',
-			'value' => $splash['bg'],
-			'options' => array( 'Solid Background' => 'color',
-								'Gradient Background' => 'gradient',
-								'Image Background' => 'image', 
-							),
-			'attribute' => 'onchange="var a = premiseGetThisVal(this);premiseToggleElements(this, {\'hide\':\'premise-background\', \'show\':\'a\'})"',
+			'type'      => 'select',
+			'label'     => 'Select Background Option',
+			'tooltip'   => 'Set your Home Splash background.',
+			'name'      => $name.'[bg]',
+			'id'        => $name.'-bg',
+			'value'     => $field['bg'],
+			'attribute' => 'onchange="premiseSelectBackground();"',
+			'options'   => array( 
+				'Solid Background'    => 'color',
+				'Gradient Background' => 'gradient',
+				'Image Background'    => 'image', 
+			),
+			'class' => 'premise-background-select',
 		);
+
 		//color
 		$color = array(
 			'type' => 'minicolors',
 			'label' => 'Select a color',
 			'name' => $name.'[color]',
 			'id' => $name.'-color',
-			'value' => $splash['color'],
+			'value' => $field['color'],
 		);
 		//gradient
 		$gradient = array(
@@ -79,19 +78,19 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 				'label' => 'Start Gradient',
 				'name' => $name.'[gradient][gradient-start]',
 				'id' => $name.'-gradient-start',
-				'value' => $splash['gradient']['gradient-start'],
+				'value' => $field['gradient']['gradient-start'],
 			),
 			array(
 				'type' => 'minicolors',
 				'label' => 'Finish Gradient',
 				'name' => $name.'[gradient][gradient-finish]',
 				'id' => $name.'-gradient-finish',
-				'value' => $splash['gradient']['gradient-finish'],
+				'value' => $field['gradient']['gradient-finish'],
 			),
 			array(
 				'type' => 'radio',
 				'name' => $name.'[gradient][gradient-dir]',
-				'value' => $splash['gradient']['gradient-dir'],
+				'value' => $field['gradient']['gradient-dir'],
 				'label' => 'Select Gradient Type',
 				'options' => array(
 					array(
@@ -109,7 +108,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			array(
 				'type' => 'radio',
 				'name' => $name.'[gradient][gradient-linear-dir]',
-				'value' => $splash['gradient']['gradient-linear-dir'],
+				'value' => $field['gradient']['gradient-linear-dir'],
 				'label' => 'Select Gradient Type',
 				'options' => array(
 					array(
@@ -130,14 +129,14 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			array(
 				'type' => 'file',
 				'name' => $name.'[image][image]',
-				'value' => $splash['image']['image'],
+				'value' => $field['image']['image'],
 				'label' => 'Upload Image',
 				'tootltip' => 'You can also use a pattern background by simply uploading a pattern and choosing "Repeat" option next.',
 			),
 			array(
 				'type' => 'select',
 				'name' => $name.'[image][repeat]',
-				'value' => $splash['image']['repeat'],
+				'value' => $field['image']['repeat'],
 				'label' => 'Repeat Background',
 				'options' => array( 
 					'Reapeat' => 'repeat',
@@ -149,7 +148,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			array(
 				'type' => 'select',
 				'name' => $name.'[image][attach]',
-				'value' => $splash['image']['attach'],
+				'value' => $field['image']['attach'],
 				'label' => 'Background Attachment',
 				'options' => array( 
 					'Fixed' => 'fixed',
@@ -159,7 +158,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			array(
 				'type' => 'select',
 				'name' => $name.'[image][position-x]',
-				'value' => $splash['image']['position-x'],
+				'value' => $field['image']['position-x'],
 				'label' => 'Background Position-X',
 				'options' => array( 
 					'Right' => 'right',
@@ -170,7 +169,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			array(
 				'type' => 'select',
 				'name' => $name.'[image][position-y]',
-				'value' => $splash['image']['position-y'],
+				'value' => $field['image']['position-y'],
 				'label' => 'Background Position-Y',
 				'options' => array( 
 					'Top' => 'top',
@@ -181,7 +180,7 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 			array(
 				'type' => 'select',
 				'name' => $name.'[image][size]',
-				'value' => $splash['image']['size'],
+				'value' => $field['image']['size'],
 				'label' => 'Background Size',
 				'options' => array( 
 					'Normal' => '',
@@ -196,17 +195,17 @@ if ( !function_exists( 'premise_insert_background' ) ) {
 		echo '</div><div class="col2">';
 
 		//color
-		echo '<div class="block premise-background premise-color-background"', $splash['bg'] !== 'color' ? 'style="display:none;"' : '', '>';
+		echo '<div class="block premise-background premise-color-background"', $field['bg'] !== 'color' ? 'style="display:none;"' : '', '>';
 			premise_field( $color );
 		echo '</div>';
 
 		//gradient
-		echo '<div class="block premise-background premise-gradient-background"', $splash['bg'] !== 'gradient' ? 'style="display:none;"' : '', '>';
+		echo '<div class="block premise-background premise-gradient-background"', $field['bg'] !== 'gradient' ? 'style="display:none;"' : '', '>';
 			premise_field( $gradient );
 		echo '</div>';
 
 		//image
-		echo '<div class="block premise-background premise-image-background"', $splash['bg'] !== 'image' ? 'style="display:none;"' : '', '>';
+		echo '<div class="block premise-background premise-image-background"', $field['bg'] !== 'image' ? 'style="display:none;"' : '', '>';
 			premise_field( $image );
 		echo '</div>';
 

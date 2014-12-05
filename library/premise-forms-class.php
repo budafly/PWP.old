@@ -120,6 +120,13 @@ class Premise_Form_Class {
 				$this->html_markup .= '</div>';
 				break;
 
+			case 'color':
+			case 'minicolors':
+				$this->html_markup .= '<div class="color '.$this->field['template'].'">';
+				$this->input_field();
+				$this->html_markup .= '</div>';
+				break;
+
 			default:
 				$this->html_markup .= ( $this->field['template'] !== 'raw' ) ? '<div class="'.$this->field['type'].'">' : '';
 				$this->input_field();
@@ -255,15 +262,14 @@ class Premise_Form_Class {
 		$new_defaults = array(  'depth' 				=> 0, 
 								'child_of' 				=> 0,
 		                		'selected' 				=> $this->field['value'], 
-		                		'echo' 					=> 1,
+		                		'echo' 					=> 0,
 		                		'name' 					=> $this->field['name'],
 		                		'id' 					=> $this->field['id'],
 		                		'show_option_none' 		=> $this->field['placeholder'], 
 		                		'show_option_no_change' => '',
 		                		'option_none_value' 	=> '' );
-
 		$this->field = wp_parse_args( $this->field, $new_defaults );
-		wp_dropdown_pages( $this->field );
+		$this->html_markup .= wp_dropdown_pages( $this->field );
 	}
 
 	/**
