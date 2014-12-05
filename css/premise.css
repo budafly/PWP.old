@@ -48,9 +48,13 @@ img.responsive {
 
 .row {
     display:block;
-    overflow:hidden;
     margin-left:-1%;
     margin-right:-1%;
+}
+
+.row:after{
+    display:block;
+    clear:both;
 }
 
 .row>[class^="span"],.row>[class*=" span"],.row>[class^="col"],.row>[class*=" col"] {
