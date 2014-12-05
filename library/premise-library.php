@@ -27,8 +27,15 @@ function premise_print( $var ) {
 function premise_field( $args = array() ) {
 	if( !is_array( $args ) ) return false;
 	global $Premise_Form_Class;
-	if( !is_array( $args[0] ) ) echo $Premise_Form_Class->the_field( $args );
-	foreach ($args as $arg) echo $Premise_Form_Class->the_field( $arg );
+	//if( is_array( $args[0] ) ) echo $Premise_Form_Class->the_field( $args );
+	//foreach ($args as $arg) 
+	foreach ( $args as $key => $value ) {
+		echo $Premise_Form_Class->the_field( $value );
+		if ( is_array( $value ) ) {
+			premise_field( $value );
+		}
+
+	}
 }
 
 /**
