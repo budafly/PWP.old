@@ -12,6 +12,7 @@
  * @return string will print $var or 'Empty $var' wrapped in <pre> tags.
  */
 function premise_print( $var ) {
+	$var = ( is_array( $var ) && empty( $var ) ) ? 'Empty array()' : $var;
 	$var = !empty($var) ? $var : 'Empty $var';
 	echo '<pre style="display:block;margin:40px auto;width:90%;overflow:auto;"><code style="display:block;padding:20px;">';
 	print_r( $var );
