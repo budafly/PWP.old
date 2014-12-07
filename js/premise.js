@@ -4,13 +4,17 @@ jQuery(function(){
 
 });
 
-
+/**
+ * Premise Same Height
+ * @param  {string} el the class of the elements to set same height
+ * @return {mixed}     will set same min-height to elements. bool false if unsuccessful
+ */
 function premiseSameHeight( el ) {
-	el = el || jQuery( '.same-height' )
+	el = el || '.same-height'
 	
-	var heightTallest = 0,setHeight;
+	var heightTallest = 0, setHeight;
 
-	var setUp = el.each(function(){
+	var setUp = jQuery( el ).each(function(){
 		if( setHeight )
 			return false
 
@@ -27,18 +31,19 @@ function premiseSameHeight( el ) {
 		}
 	});
 
-	var fixHeight = el.css( 'min-height', heightTallest )
+	var fixHeight = jQuery( el ).css( 'min-height', heightTallest )
 
 	jQuery.when( setUp ).done( fixHeight )
 	
 	return false
 }
 
+var premiseFileUploader
 /**
  * Premise Upload File
  * @param  {object} el button or anchor element to attach action to
  * @return {action}    will open WP file upload functionality
- */var premiseFileUploader
+ */
 function premiseUploadFile( el ){
 	el = el || jQuery('.field .file .premise-btn-upload')
 
@@ -86,8 +91,7 @@ function premiseRemoveFile( el ){
  * @return {action}   will filter font-awesome-icons
  */
 function premiseFilterIcons(a) {
-    var search = a,
-    	Regex = new RegExp(search, "i");
+    var search = a, Regex = new RegExp(search, "i");
     	
 	if (!search || '' == search){
 		jQuery('.this-icon').parent('li').show();
@@ -110,9 +114,11 @@ function premiseFilterIcons(a) {
 function premiseSelectBackground( el ) {
 	el = el || jQuery( '.premise-background-select select' )
 
-	var a = el.val()
-	jQuery( '.premise-background' ).fadeOut('fast')
-	jQuery( '.premise-'+a+'-background' ).fadeIn('fast')
+	var a       = el.val()
+	var fadeout = jQuery( '.premise-background' ).fadeOut('fast')
+	var fadein  = jQuery( '.premise-'+a+'-background' ).fadeIn('fast')
+
+	jQuery.when( fadeout ).done( fadein )
 
 	return false
 }
