@@ -199,6 +199,26 @@ img.responsive {
     width:14.6%;
 }
 
+.width20 {
+    width:20%;
+}
+
+.width80 {
+    width:80%;
+}
+
+.width25 {
+    width:25%;
+}
+
+.width75 {
+    width:75%;
+}
+
+.width33 {
+    width:33.33%;
+}
+
 .float-right {
     float:right;
 }
