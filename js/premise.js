@@ -112,11 +112,15 @@ function premiseFilterIcons(a) {
  * @return {bool}      false
  */
 function premiseSelectBackground( el ) {
-	el = el || jQuery( '.premise-background-select select' )
+	el = typeof el === 'object' ? jQuery(el) : null;
 
-	var a       = el.val()
-	var fadeout = jQuery( '.premise-background' ).fadeOut('fast')
-	var fadein  = jQuery( '.premise-'+a+'-background' ).fadeIn('fast')
+	//if( !el ) console.log( 'You must pass an object for premiseSelectBackground to work' ); return false;
+
+	console.log(el)
+
+	var a       = jQuery(el).val()
+	var fadeout = el.parents( '.premise-background-select' ).find( '.premise-background' ).fadeOut('fast')
+	var fadein  = el.parents( '.premise-background-select' ).find( '.premise-'+a+'-background' ).fadeIn('fast')
 
 	jQuery.when( fadeout ).done( fadein )
 
