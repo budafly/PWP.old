@@ -56,13 +56,12 @@ function premise_save_background( $name ) {
 		'name'      => $name.'[bg]',
 		'id'        => $name.'-bg',
 		'value'     => $field['bg'],
-		'attribute' => 'onchange="premiseSelectBackground();"',
+		'attribute' => 'onchange="premiseSelectBackground(this);"',
 		'options'   => array( 
 			'Solid Background'    => 'color',
 			'Gradient Background' => 'gradient',
 			'Image Background'    => 'image', 
 		),
-		'class' => 'premise-background-select',
 	);
 
 	$color = array(
@@ -191,7 +190,7 @@ function premise_save_background( $name ) {
 		)
 	);
 	//ouput fields
-	echo '<div class="row"><div class="col2">';
+	echo '<div class="premise-background-select row"><div class="col2">';
 		premise_field( $background );
 	echo '</div><div class="col2">';
 
