@@ -26,15 +26,19 @@ function premise_print( $var ) {
  * 
  * @see class PremiseFormElements in premise-forms-class.php
  */
-function premise_field( $args = array() ) {
+function premise_field( $args = array(), $echo = true ) {
 	if( !is_array( $args ) ) return false;
 	global $Premise_Form_Class;
+	$html ='';
 	if( array_key_exists( 'type', $args ) ) {
-		echo $Premise_Form_Class->the_field( $args );
+		$html .= $Premise_Form_Class->the_field( $args );
 	}
 	else {
-		foreach ($args as $arg) echo $Premise_Form_Class->the_field( $arg );
+		foreach ($args as $arg) $html .= $Premise_Form_Class->the_field( $arg );
 	}
+	if( !$echo )
+		return $html;
+	echo $html;
 }
 
 /**
