@@ -60,6 +60,7 @@ function premise_save_background( $name ) {
 		'name'      => $name.'[bg]',
 		'id'        => $name.'-bg',
 		'value'     => $field['bg'],
+		'placeholder' => 'Select Background',
 		'attribute' => 'onchange="premiseSelectBackground(this);"',
 		'options'   => array( 
 			'Solid Background'    => 'color',
@@ -154,6 +155,7 @@ function premise_save_background( $name ) {
 			'name' => $name.'[image][attach]',
 			'value' => $field['image']['attach'],
 			'label' => 'Background Attachment',
+			'placeholder' => 'Select Attachment',
 			'options' => array( 
 				'Fixed' => 'fixed',
 				'Scroll' => 'scroll',
