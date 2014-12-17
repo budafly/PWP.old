@@ -33,9 +33,9 @@
     position:relative;
 }
 
-.fixed {
+/* .fixed {
     position:fixed;
-}
+} */
 
 .hidden {
     display:none;
@@ -287,6 +287,13 @@ img.square-img {
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     -o-border-radius:10px;
+}
+
+.round-corners25 {
+    border-radius:25px;
+    -webkit-border-radius:25px;
+    -moz-border-radius:25px;
+    -o-border-radius:25px;
 }
 
 .center {
