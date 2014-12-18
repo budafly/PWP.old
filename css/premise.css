@@ -33,9 +33,9 @@
     position:relative;
 }
 
-/* .fixed {
+.premise-fixed { /* Fix for WP Admin issues: Added name prefix premise- */
     position:fixed;
-} */
+} 
 
 .hidden {
     display:none;
