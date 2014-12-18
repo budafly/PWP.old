@@ -1,6 +1,14 @@
-jQuery(function(){
+jQuery(function($){
 
 	premiseSameHeight();
+
+	$(window).resize(function() {
+		premiseColumnConform();
+	});
+
+	$(window).load( function() {
+		premiseColumnConform();
+	});
 
 });
 
@@ -126,3 +134,70 @@ function premiseSelectBackground( el ) {
 
 	return false
 }
+
+
+
+
+
+
+
+		
+// these are (ruh-roh) globals. You could wrap in an
+// immediately-Invoked Function Expression (IIFE) if you wanted to...
+var premiseCurrentTallest = 0,
+    premiseCurrentRowStart = 0,
+    premiseRowDivs = new Array();
+
+function premiseSetConformingHeight(el, newHeight) {
+	// set the height to something new, but remember the original height in case things change
+	el.data("originalHeight", (el.data("originalHeight") == undefined) ? (el.height()) : (el.data("originalHeight")));
+	el.height(newHeight);
+}
+
+function premiseGetOriginalHeight(el) {
+	// if the height has changed, send the originalHeight
+	return (el.data("originalHeight") == undefined) ? (el.height()) : (el.data("originalHeight"));
+}
+
+function premiseColumnConform() {
+	var $ = jQuery;
+	// find the tallest DIV in the row, and set the heights of all of the DIVs to match it.
+	$('#page-wrap > div').each(function() {
+	
+		// "caching"
+		var $el = $(this);
+		
+		var topPosition = $el.position().top;
+
+		if (premiseCurrentRowStart != topPosition) {
+
+			// we just came to a new row.  Set all the heights on the completed row
+			for(currentDiv = 0 ; currentDiv < premiseRowDivs.length ; currentDiv++) premiseSetConformingHeight(premiseRowDivs[currentDiv], premiseCurrentTallest);
+
+			// set the variables for the new row
+			premiseRowDivs.length = 0; // empty the array
+			premiseCurrentRowStart = topPosition;
+			premiseCurrentTallest = premiseGetOriginalHeight($el);
+			premiseRowDivs.push($el);
+
+		} else {
+
+			// another div on the current row.  Add it to the list and check if it's taller
+			premiseRowDivs.push($el);
+			premiseCurrentTallest = (premiseCurrentTallest < premiseGetOriginalHeight($el)) ? (premiseGetOriginalHeight($el)) : (premiseCurrentTallest);
+
+		}
+		// do the last row
+		for (currentDiv = 0 ; currentDiv < premiseRowDivs.length ; currentDiv++) premiseSetConformingHeight(premiseRowDivs[currentDiv], premiseCurrentTallest);
+
+	});
+
+}
+
+
+
+
+
+
+
+
