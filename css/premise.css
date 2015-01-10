@@ -74,7 +74,7 @@ img.responsive {
     display:inline-block;
 }
 
-.row>.col2:nth-child(2n+1){
+/* .row>.col2:nth-child(2n+1){
     clear:left;
 }
 .row>.col3:nth-child(3n+1){
@@ -89,7 +89,9 @@ img.responsive {
 .row>.col6:nth-child(6n+1){
     clear:left;
 }
+ */
 
+ 
 .vertical-middle {
     vertical-align:middle;
 }
