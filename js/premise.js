@@ -2,6 +2,8 @@ jQuery(function($){
 
 	premiseSameHeight();
 
+	premiseMinicolors();
+
 	$(window).resize(function() {
 		premiseColumnConform();
 	});
@@ -12,13 +14,26 @@ jQuery(function($){
 
 });
 
+
+
+
+
+
+function premiseMinicolors() {
+	jQuery('.field > .text > input.premise-minicolors').minicolors();
+}
+
+
+
+
+
 /**
  * Premise Same Height
  * @param  {string} el the class of the elements to set same height
  * @return {mixed}     will set same min-height to elements. bool false if unsuccessful
  */
 function premiseSameHeight( el ) {
-	el = el || '.same-height'
+	el = el || '.premise-same-height'
 	
 	var heightTallest = 0, setHeight;
 
@@ -195,6 +210,62 @@ function premiseColumnConform() {
 }
 
 
+
+
+
+/**
+ * Ajax popup
+ * 
+ * @param  {object} el object or selector for anchor tag with ajax link
+ * @return {AJAX}    loads page in anchor tag's href attribute
+ */
+function premisePopup(el, context) {
+	event.preventDefault();
+
+	el = 'undefined' !== typeof el ? jQuery(el) : null
+	context = 'undefined' !== typeof context ? context : ''
+
+	var url  = el.attr('href'),
+	icon     = jQuery('#premise-ajax-loading'),
+	overlay  = jQuery('#premise-ajax-overlay'),
+	dialog   = jQuery('#premise-ajax-dialog'),
+	close    = jQuery('#premise-ajax-close');
+
+	overlay.fadeIn( 'fast' )
+	icon.fadeIn( 'fast' )
+	close.fadeIn( 'fast' )
+
+	url     = url + ' ' + context;
+
+	dialog.load( url, function( resp ) {
+		dialog.fadeIn('fast')
+		icon.fadeOut( 'fast' )
+	})
+
+}
+
+
+
+/**
+ * Close Ajax dialog and empty it.
+ * 	
+ * @return {bool} false. This function does not return anything
+ */
+function premiseAjaxClose() {
+	var icon = jQuery('#premise-ajax-loading'),
+	overlay  = jQuery('#premise-ajax-overlay'),
+	dialog   = jQuery('#premise-ajax-dialog'),
+	close    = jQuery('#premise-ajax-close');
+
+	icon.fadeOut(    ' fast' )
+	overlay.fadeOut( ' fast' )
+	dialog.fadeOut(  ' fast' )
+	close.fadeOut(   ' fast' )
+
+	dialog.empty()
+
+	return false
+}
 
 
 
