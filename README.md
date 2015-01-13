@@ -73,7 +73,8 @@ premise_field( $args );
 
 /**
  * Build a section of fields. This is helpful if you want to separate fields in groups
- * where each group can maybe have their own title and description.
+ * where each group can maybe have their own title and description. 
+ * The following builds the same fields as above but within a contianer
  */
 $args = array(
 	'container' = true,
