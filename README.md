@@ -79,7 +79,7 @@ $args = array(
 	'container' = true,
 	'container_title' => 'This is the Title', 
 	'container_desc' => 'This is the description',
-	'fields' array(
+	'fields' => array(
 		array(
 			'type' => 'file',
 			'name' => 'file_field',
