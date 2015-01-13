@@ -204,9 +204,12 @@ class Premise_WP_FW_Class {
 	public function premise_scripts() {
 		//register styles
 		wp_register_style( 'premise_font_awesome', PREMISE_URL . 'includes/font-awesome-4.2.0/css/font-awesome.min.css' );
-		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/premise.css', array( 'premise_font_awesome' ) );
+		wp_register_style( 'minicolors_css'      , PREMISE_URL . '/includes/minicolors/jquery.minicolors.css');
+		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/premise.css', array( 'premise_font_awesome', 'minicolors_css' ) );
+		
 		//register scripts
-		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/premise.js', array( 'jquery' ) );
+		wp_register_script( 'minicolors_js'      , PREMISE_URL . '/includes/minicolors/jquery.minicolors.min.js');
+		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/premise.js', array( 'jquery', 'minicolors_js' ) );
 
 		wp_enqueue_style( 'premise_style_css' );
 		wp_enqueue_script( 'premise_script_js' );

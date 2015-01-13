@@ -15,7 +15,7 @@
 /**
 * 
 */
-class PremiseForm {
+class PremiseField {
 
 
 	/**
@@ -45,7 +45,6 @@ class PremiseForm {
 		'value_att' 	  => '',  			//Used for checkboxes and radio fields. if this is equal to 'value' the field will be checked
 		'class' 	  	  => '',  			//custom class for easy styling
 		'insert_icon'	  => '', 			//insert a fontawesome icon
-		'template'	  	  => 'default', 	//currently only option is 'raw'
 		'options'		  => array(),		//holds different options depending on the type of field
 		'attribute' 	  => '',			//Additional html attributes to add to element i.e. onchange="premiseSelectBackground()"
 	);
@@ -66,58 +65,6 @@ class PremiseForm {
 
 
 	
-
-	/**
-	 * Defaults if field section
-	 *
-	 * parsed in __construct()
-	 * 
-	 * @var array
-	 */
-	protected $field_section_defaults = array(
-		'container' 	  => false, 		//output within parent container with class premise-field-section
-		'container_title' => '',  			//if container is true displays title
-		'container_desc'  => '',  			//if container is true displays description
-		'container_class' => '', 			//if container is true displays additional classes on container
-		'fields' 		  => array(), 		//if container is true this will hold multidimensional array with all fields
-	);
-
-
-
-
-
-
-	/**
-	 * will hold our field section
-	 * 
-	 * @var array
-	 */
-	protected $field_section = array();
-
-
-
-
-
-
-	/**
-	 * holds our <label> markup including the tooltip if applicable
-	 * 
-	 * @var string
-	 */
-	protected $label = '';
-
-
-
-
-
-
-
-	protected $field_class = '';
-
-
-
-
-
 
 	/**
 	 * will hold our button markup to our object assigned in prepare_field()
@@ -156,7 +103,7 @@ class PremiseForm {
 		if( !empty( $args ) && is_array( $args ) )
 			$this->args = $args;
 
-		$this->form_init();
+		$this->field_init();
 
 	}
 
@@ -167,81 +114,29 @@ class PremiseForm {
 	/**
 	 * begin processing the field
 	 */
-	protected function form_init() {
+	protected function field_init() {
 
 		/**
-		 * If container is true and has 'fields' key
+		 * 
 		 */
-		if( true === $this->args['container'] && array_key_exists( 'fields', $this->args ) ) {
-			$this->field_section = wp_parse_args( $this->args, $this->field_section_defaults );
-
-			$this->build_field_section();
-		}
-		/**
-		 * if has 'options' key or is not multididemnsional array 
-		 */
-		elseif( ( array_key_exists( 'options', $this->args ) && !empty( $this->args['options'] ) ) || (count($this->args) == count($this->args, COUNT_RECURSIVE) ) ) {
-			$this->field = wp_parse_args( $this->args, $this->defaults );
-			
-			$this->build_field();
-		}
-		/**
-		 * is multidimensional array and container is false
-		 */
-		else{
-			foreach ( $this->args as $field ) {
-				$this->field = wp_parse_args( $field, $this->defaults );
-
-				$this->build_field();
-			}
-		}
-
-	}
-
-
-
-
-
-
-
-
-	protected function build_field_section() {
-
-		$html  = '<div class="field-section '.$this->field_section['container_class'].'">';
-
-		$html .= !empty( $this->field_section['container_title'] ) ? '<h3>'.$this->field_section['container_title'].'</h3>' : '';
-		$html .= !empty( $this->field_section['container_desc'] )  ? '<p>'.$this->field_section['container_desc'].'</p>' 	: '';
-
-		foreach ( $this->field_section['fields'] as $field ) {
-			$this->field = wp_parse_args( $field, $this->defaults );
-
-			$html .= $this->build_field();
-		}
-
-		$html .= '</div>';
-
-		$this->html .= $html;
-
-	}
-
-
-
-
-
-
-
-	protected function build_field() {
+		$this->field = wp_parse_args( $this->args, $this->defaults );
 
 		$this->prepare_field();
 
-		$html = '<div class="field';
-		$html .= !empty( $this->field['class'] ) ? $this->field['class'].'">' : '">';
+		$this->build_field();
+				
+	}
 
-		$html .= $this->label;
 
-		$html .= '<div class="'.$this->field['type'].'';
-		$html .= !empty( $this->field['template'] ) ? $this->field['template'].'"' : '">';
-		
+
+
+
+
+	/**
+	 * This function builds our field and saves the html markup for it
+	 */
+	protected function build_field() {
+
 		switch( $this->field['type'] ) {
 			case 'select':
 			case 'wp_dropdown_pages':
@@ -264,8 +159,6 @@ class PremiseForm {
 				$html .= $this->input_field();
 				break;
 		}
-
-		$html .= '</div></div>';
 
 		$this->html .= $html;
 
@@ -485,18 +378,21 @@ class PremiseForm {
 				$this->field['type'] = 'select';
 				break;
 
+
 			case 'minicolors':
 				$this->field['type'] = 'text';
 				$this->field_class = 'premise-minicolors';
 				break;
 
 			case 'file':
+				$this->field['type'] = 'text';
 				$this->field_class = 'premise-file-url';
 				$this->btn_upload_file = '<a class="premise-btn-upload" href="javascript:void(0);" onclick="premiseUploadFile(this, '.$multiple.', \''.$preview.'\')"><i class="fa fa-fw fa-upload"></i></a>';
 				$this->btn_remove_file = '<a class="premise-btn-remove" href="javascript:void(0);" onclick="premiseRemoveFile(this)"><i class="fa fa-fw fa-times"></i></a>';
 				break;
 
 			case 'fa-icon':
+				$this->field['type'] = 'text';
 				$this->field_class = 'premise-insert-icon';
 				$this->btn_choose_icon = '<a href="javascript:;" class="premise-choose-icon" onclick="premiseChooseIcon(this);"><i class="fa fa-fw fa-th"></i></a>';
 				$this->btn_remove_icon = '<a href="javascript:;" class="premise-remove-icon" onclick="premiseRemoveIcon(this);"><i class="fa fa-fw fa-times"></i></a>';
@@ -515,14 +411,6 @@ class PremiseForm {
 		}
 
 	}
-
-
-
-
-
-
-	
-
 
 
 }

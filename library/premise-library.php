@@ -30,23 +30,32 @@ function premise_field( $args = array(), $echo = true ) {
 	
 	$form = new PremiseForm( $args );
 
-	echo $form->html;
-
-	// premise_print( $form );
-
-	if( !is_array( $args ) ) return false;
-	global $Premise_Form_Class;
-	$html ='';
-	if( array_key_exists( 'type', $args ) ) {
-		$html .= $Premise_Form_Class->the_field( $args );
-	}
-	else {
-		foreach ($args as $arg) $html .= $Premise_Form_Class->the_field( $arg );
-	}
 	if( !$echo )
-		return $html;
-	echo $html;
+		return $form->html;
+	else
+		echo $form->html;
 }
+
+
+
+
+
+function premise_field_section( $args = array(), $echo = true ) {
+	$defaults = array(
+		'container'             => true,
+		'container_title'       => '',
+		'container_desc'        => '',
+		'container_class'       => '',
+		'container_inner_class' => '',
+		'fields' 				=> array(),
+	);
+
+	$field_section = wp_parse_args( $args, $defaults );
+}
+
+
+
+
 
 /**
  * Insert Background Fields
