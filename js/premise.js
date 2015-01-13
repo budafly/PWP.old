@@ -20,7 +20,7 @@ jQuery(function($){
 
 
 function premiseMinicolors() {
-	jQuery('.field > .text > input.premise-minicolors').minicolors();
+	jQuery('.field > .color > input.premise-minicolors').minicolors();
 }
 
 

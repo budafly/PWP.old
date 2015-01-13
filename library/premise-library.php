@@ -27,13 +27,24 @@ function premise_print( $var ) {
  * @see class PremiseFormElements in premise-forms-class.php
  */
 function premise_field( $args = array(), $echo = true ) {
+	$html = '';
 	
-	$form = new PremiseForm( $args );
-
+	if( array_key_exists( 'options', $args ) || (count($args) == count($args, COUNT_RECURSIVE) ) ) {
+		$field = new PremiseField( $args );
+		$html .= $field->get_field();
+	}
+	else{
+		foreach ( $args as $arg ) {
+			$field = new PremiseField( $arg );
+			$html .= $field->get_field();
+		}
+	}
+	
 	if( !$echo )
-		return $form->html;
+		return $html;
 	else
-		echo $form->html;
+		echo $html;
+	
 }
 
 
@@ -51,6 +62,21 @@ function premise_field_section( $args = array(), $echo = true ) {
 	);
 
 	$field_section = wp_parse_args( $args, $defaults );
+
+	$html  = ( true === $field_section['container'] ) ? '<div class="field-section' : '';
+	$html .= ( true === $field_section['container'] && !empty( $field_section['container_class'] ) ) ? ' ' . $field_section['container_class'] . '">' : '">';
+
+	$html .= !empty( $field_section['container_inner_class'] ) ? '<div class="' . $field_section['container_inner_class'] . '">' : '';
+
+	$html .= !empty( $field_section['container_title'] ) ? '<h3>' . $field_section['container_title'] . '</h3>' : '';
+
+	$html .= !empty( $field_section['container_title'] ) ? '<p>' . $field_section['container_desc'] . '</p>' : '';
+
+	// foreach( $field_section['fields'] )
+
+	$html .= !empty( $field_section['container_inner_class'] ) ? '</div>' : '';
+
+	$html  = ( true === $field_section['container'] ) ? '</div>' : '';
 }
 
 

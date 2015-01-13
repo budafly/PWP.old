@@ -44,9 +44,8 @@ class PremiseField {
 		'value' 	  	  => '',  			//value from database
 		'value_att' 	  => '',  			//Used for checkboxes and radio fields. if this is equal to 'value' the field will be checked
 		'class' 	  	  => '',  			//custom class for easy styling
-		'insert_icon'	  => '', 			//insert a fontawesome icon
-		'options'		  => array(),		//holds different options depending on the type of field
 		'attribute' 	  => '',			//Additional html attributes to add to element i.e. onchange="premiseSelectBackground()"
+		'options'		  => array(),		//holds different options depending on the type of field
 	);
 
 
@@ -94,12 +93,37 @@ class PremiseField {
 
 
 	/**
+	 * Holds the class that should be assigned to the field wrapper
+	 * 
+	 * @var string
+	 */
+	public $wrapper = 'text';
+
+
+
+
+
+
+
+	/**
+	 * Holds the field label including tooltip
+	 * 
+	 * @var string
+	 */
+	public $label = '';
+
+
+
+
+
+
+	/**
 	 * construct our object
 	 * 
 	 * @param array $args array holding one or more fields
 	 */
 	function __construct( $args ) {
-		
+
 		if( !empty( $args ) && is_array( $args ) )
 			$this->args = $args;
 
@@ -120,10 +144,12 @@ class PremiseField {
 		 * 
 		 */
 		$this->field = wp_parse_args( $this->args, $this->defaults );
-
 		$this->prepare_field();
 
-		$this->build_field();
+		if( 'raw' !== $this->field['template'] )
+			$this->build_field();
+		else 
+			$this->raw_field();
 				
 	}
 
@@ -137,6 +163,47 @@ class PremiseField {
 	 */
 	protected function build_field() {
 
+		$html .= '<div class="field';
+		$html .= !empty( $this->field['class'] ) ? ' ' . $this->field['class'] . '">' : '">';
+
+		$html .= $this->label;
+
+		$html .= '<div class="' . $this->wrapper . '">';
+
+		$html .= $this->the_field();
+
+		$html .= '</div></div>';
+
+		$this->html .= $html;
+
+	}
+
+
+
+
+
+
+
+	/**
+	 * Outputs only the necessary elements for any given field
+	 * No wrappers, no label, nothing but the field.
+	 */
+	protected function raw_field() {
+		$html = $this->the_field();
+
+		$this->html .= $html;
+	}
+
+
+
+
+
+
+
+
+
+	protected function the_field() {
+		$html ='';
 		switch( $this->field['type'] ) {
 			case 'select':
 			case 'wp_dropdown_pages':
@@ -159,9 +226,7 @@ class PremiseField {
 				$html .= $this->input_field();
 				break;
 		}
-
-		$this->html .= $html;
-
+		return $html;
 	}
 
 
@@ -244,7 +309,7 @@ class PremiseField {
 
 		$field .= '<label ';
 		$field .= !empty( $this->field['id'] ) 			? 'for="'. $this->field['id'] .'"' 		: '';
-		$field .= '>'. $this->options['label'] .'</label>';
+		$field .= '>'. $this->field['options']['label'] .'</label>';
 
 		return $field;
 
@@ -259,9 +324,11 @@ class PremiseField {
 	protected function radio() {
 		if( !empty( $this->field['options'] ) && is_array( $this->field['options'] ) ) {
 			
+			$field = '';
+
 			foreach ( $this->field['options'] as $radio ) {
 				
-				$field  = '<input type="'.$this->field['type'].'"';
+				$field  .= '<input type="'.$this->field['type'].'"';
 				
 				$field .= !empty( $this->field['attribute'] ) 	? $this->field['attribute'] 		: '';
 				$field .= !empty( $this->field['name'] ) 		? 'name="'.$this->field['name'].'"' : '';
@@ -277,6 +344,8 @@ class PremiseField {
 				$field .= $radio['label'].'</label>';
 
 			}
+
+			return $field;
 
 		}
 	}
@@ -370,21 +439,29 @@ class PremiseField {
 	 */
 	protected function prepare_field() {
 
+		$this->label  = !empty( $this->field['label'] ) 												? '<label for="'.$this->field['id'].'">'.$this->field['label'].'</label>' 	: '';
+		$this->label .= ( !empty( $this->field['label'] ) && !empty( $this->field['tooltip'] ) ) 		? '<span class="tooltip"><i>'.$this->field['tooltip'].'</i></span>' 		: '';
+
 		/**
 		 * Set the field['type'] value
 		 */
 		switch( $this->field['type'] ) {
+			case 'select':
 			case 'wp_dropdown_pages':
-				$this->field['type'] = 'select';
+				$this->wrapper = 'select';
 				break;
 
 
+			case 'color':
 			case 'minicolors':
+				$this->wrapper = 'color';
 				$this->field['type'] = 'text';
 				$this->field_class = 'premise-minicolors';
+				$this->field['template'] = 'default';
 				break;
 
 			case 'file':
+				$this->wrapper = 'file';
 				$this->field['type'] = 'text';
 				$this->field_class = 'premise-file-url';
 				$this->btn_upload_file = '<a class="premise-btn-upload" href="javascript:void(0);" onclick="premiseUploadFile(this, '.$multiple.', \''.$preview.'\')"><i class="fa fa-fw fa-upload"></i></a>';
@@ -392,6 +469,7 @@ class PremiseField {
 				break;
 
 			case 'fa-icon':
+				$this->wrapper = 'fa-icon';
 				$this->field['type'] = 'text';
 				$this->field_class = 'premise-insert-icon';
 				$this->btn_choose_icon = '<a href="javascript:;" class="premise-choose-icon" onclick="premiseChooseIcon(this);"><i class="fa fa-fw fa-th"></i></a>';
@@ -400,6 +478,7 @@ class PremiseField {
 
 			case 'checkbox':
 			case 'radio':
+				$this->wrapper = ( 'radio' == $this->field['type'] ) 											? 'radio'																	: 'checkbox';
 				$this->label  = !empty( $this->field['label'] ) 												? '<p class="label">'.$this->field['label'].'</p>' 							: '';
 				$this->label .= ( !empty( $this->field['label'] ) && !empty( $this->field['tooltip'] ) ) 		? '<span class="tooltip"><i>'.$this->field['tooltip'].'</i></span>' 		: '';
 				break;
@@ -410,6 +489,16 @@ class PremiseField {
 				break;
 		}
 
+	}
+
+
+
+
+
+
+
+	public function get_field() {
+		return $this->html;
 	}
 
 
