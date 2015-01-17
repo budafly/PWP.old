@@ -217,6 +217,10 @@ img.responsive {
     width:75%;
 }
 
+.width100 {
+    width:100%;
+}
+
 .width33 {
     width:33.33%;
 }
