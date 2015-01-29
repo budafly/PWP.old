@@ -46,6 +46,7 @@ class PremiseField {
 		'class' 	  	  => '',  			//custom class for easy styling
 		'attribute' 	  => '',			//Additional html attributes to add to element i.e. onchange="premiseSelectBackground()"
 		'options'		  => array(),		//holds different options depending on the type of field
+		'template'		  => 'default',
 	);
 
 
@@ -250,7 +251,7 @@ class PremiseField {
 		/**
 		 * add buttons if file or fa-icon field
 		 */
-		switch( $this->field['type'] ) {
+		switch( $this->wrapper ) {
 			case 'file':
 				$field .= $this->btn_upload_file;
 				$field .= $this->btn_remove_file;
