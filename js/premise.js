@@ -68,7 +68,7 @@ var premiseFileUploader
  * @return {action}    will open WP file upload functionality
  */
 function premiseUploadFile( el ){
-	el = el || jQuery('.field .file .premise-btn-upload')
+	el = 'undefined' !== typeof el ? jQuery(el) : null
 
     var fileURL = jQuery('.field .file .premise-file-url');
 
@@ -108,25 +108,84 @@ function premiseRemoveFile( el ){
 	return false;
 }
 
+function tfwkChooseIcon(el) {
+	var el = jQuery(el);
+	el.siblings( '.fa-all-icons' ).slideToggle( 'fast' )
+	tfwkSelectIcon()
+	return false
+}
+
+
+
+
+
 /**
- * [filter description]
- * @param  {string} a string to serach for
- * @return {action}   will filter font-awesome-icons
+ * Select an icon
+ *
+ * Inserts the user selected icon into the field to be saved
+ *
+ * @return {void}
  */
-function premiseFilterIcons(a) {
-    var search = a, Regex = new RegExp(search, "i");
-    	
+function premiseChooseIcon() {
+	jQuery(document).on('click', '.fa-all-icons a.this-icon', function(){
+		var icon = jQuery(this).attr('data-icon'),
+			input = jQuery(this).parents('.fa-icon').find('.premise-insert-icon');
+
+		input.val(icon);
+	});
+}
+
+
+
+
+
+
+/**
+ * Simply clears the icon field
+ *
+ * @param  {object} anchor element clicked
+ * @return {[bool} false
+ */
+function premiseRemoveIcon(el) {
+	var el = jQuery(el);
+	el.siblings( '.premise-insert-icon' ).val( '' )
+	if( el.siblings( '.fa-all-icons' ).is( ':visible' ) ) {
+		el.siblings( '.fa-all-icons' ).hide( 'fast' )
+	}
+	return false
+}
+
+
+
+
+
+
+/**
+ * Filter/search icons
+ *
+ * Allow users to simply start typing the name of the icon they want to use.
+ * This will immediately open the icon grid and search live for the icons that
+ * match whatever the user types in.
+ *
+ * @param  {object} input element where name gets typed
+ * @return {void}
+ */
+function premiseFilterIcons(el) {
+    var search = jQuery(el).val(), Regex = new RegExp(search, "i");
+
 	if (!search || '' == search){
 		jQuery('.this-icon').parent('li').show();
+		jQuery(el).siblings('.fa-all-icons').hide('fast')
 	}
 	else{
+		jQuery(el).siblings('.fa-all-icons').show('fast')
 		jQuery('.this-icon').parent('li').hide();
 		jQuery('.this-icon').each(function(){
 			if(jQuery(this).attr('data-icon').search(Regex) > 0){
 				jQuery(this).parent('li').show();
 			}
-		});			
-	}   
+		});
+	}
 }
 
 /**

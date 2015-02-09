@@ -173,8 +173,8 @@ class Premise_WP_FW_Class {
 	 * @return object instance of the forms class
 	 */
 	public function initiate_forms(){
-		global $Premise_Form_Class;
-		$Premise_Form_Class = new Premise_Form_Class;
+		// global $Premise_Form_Class;
+		// $Premise_Form_Class = new Premise_Form_Class;
 	}
 
 

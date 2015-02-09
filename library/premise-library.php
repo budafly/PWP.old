@@ -64,6 +64,7 @@ function premise_field_section( $args = array(), $echo = true ) {
 	$field_section = wp_parse_args( $args, $defaults );
 
 	$html  = ( true === $field_section['container'] ) ? '<div class="field-section' : '';
+
 	$html .= ( true === $field_section['container'] && !empty( $field_section['container_class'] ) ) ? ' ' . $field_section['container_class'] . '">' : '">';
 
 	$html .= !empty( $field_section['container_inner_class'] ) ? '<div class="' . $field_section['container_inner_class'] . '">' : '';
@@ -72,11 +73,16 @@ function premise_field_section( $args = array(), $echo = true ) {
 
 	$html .= !empty( $field_section['container_title'] ) ? '<p>' . $field_section['container_desc'] . '</p>' : '';
 
-	// foreach( $field_section['fields'] )
+	$html .= premise_field( $field_section['fields'], false );
 
 	$html .= !empty( $field_section['container_inner_class'] ) ? '</div>' : '';
 
-	$html  = ( true === $field_section['container'] ) ? '</div>' : '';
+	$html .= ( true === $field_section['container'] ) ? '</div>' : '';
+
+	if( !$echo )
+		return $html;
+	else
+		echo $html;
 }
 
 
